@@ -7,13 +7,16 @@
 	{
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
-	if(isset($_POST["device_id"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["hash"])  && isset($_POST["sensor_type"]) && isset($_POST["sensor_data"]))
+	if(isset($_POST["device_id"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["hash"])  && isset($_POST["sensor_type"]) && isset($_POST["sensor"]) 
+	&& isset($_POST["sensor2"]) && isset($_POST["sensor3"]))
 	{
 		$username = $_POST["username"];
 		$password = $_POST["password"];
 		$device_id = $_POST["device_id"];
-		$sensor_data = $_POST["sensor_data"];
-		$sensor_type = $_POST["sensor_type"];
+		$sensor= $_POST["sensor"];
+		$sensor2 = $_POST["sensor2"];
+		$sensor3 = $_POST["sensor3"];
+
         $hash = hash('sha256', $device_id);
 		$timestamp = date('Y-m-d H:i:s') ;
 		$query = "SELECT * from users where device_hash='$hash'";
@@ -26,7 +29,7 @@
 			$result = $connection->query($query);
 			$row = $result->fetch_assoc();
 			$user_id = $row['user_id'];
-			saveEvent($user_id, $sensor_data, $sensor_type, $timestamp);
+			saveEvent($user_id, $sensor, $sensor2,$sensor3, $timestamp);
 
 
 		}
@@ -34,7 +37,7 @@
 		{
 			$row = $result->fetch_assoc();
 			$user_id = $row['user_id'];
-			saveEvent($user_id, $sensor_data, $sensor_type, $timestamp);
+			saveEvent($user_id, $sensor, $sensor2,$sensor3, $timestamp);
 
 		}
 
@@ -52,10 +55,10 @@
         exit();
     }
 
-	function saveEvent($user_id, $sensor_data, $sensor_type, $date)
+	function saveEvent($user_id, $sensor, $sensor2,$sensor3, $date)
 	{
 		global $connection;
-		$sqlnewMetric = "INSERT into metrics(user_id,date,sensor_type,sensor_data) values ('$user_id','$date','$sensor_type','$sensor_data')";
+		$sqlnewMetric = "INSERT into metrics(user_id,date,sensor,sensor2,sensor3) values ('$user_id','$date','$sensor','$sensor2','$sensor3')";
 		$result = $connection->query($sqlnewMetric);
 		if($result)
 		{
