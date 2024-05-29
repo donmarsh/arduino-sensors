@@ -7,7 +7,7 @@
 	{
 	echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
-	if(isset($_POST["device_id"]) && isset($_POST["username"]) && isset($_POST["password"]) && isset($_POST["hash"])  && isset($_POST["sensor_type"]) && isset($_POST["sensor"]) 
+	if(isset($_POST["device_id"]) && isset($_POST["username"]) && isset($_POST["password"])  && isset($_POST["sensor_type"]) && isset($_POST["sensor"]) 
 	&& isset($_POST["sensor2"]) && isset($_POST["sensor3"]))
 	{
 		$username = $_POST["username"];
